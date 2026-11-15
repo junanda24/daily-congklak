@@ -1,0 +1,1079 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="dark" />
+    <link rel="icon" href="data:," />
+    <title>CONGKLAK!</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+    <style>
+      :root{
+        --laut:#0B3B3E;
+        --laut-gelap:#082E30;
+        --kayu:#8A5A2B;
+        --kayu-gelap:#5E3A1C;
+        --kayu-tepi:#6E451F;
+        --palka:#4A2C12;
+        --gading:#F5EFE0;
+        --gading-redup:#D8CFB8;
+        --kuningan:#C9A227;
+        --kuningan-terang:#E4C65B;
+        --bata:#B4432F;
+        --teks-gelap:#241503;
+      }
+      *{ box-sizing:border-box; }
+      html,body{ margin:0; padding:0; }
+      body{
+        font-family:"Nunito", system-ui, -apple-system, "Segoe UI", sans-serif;
+        background:var(--laut);
+        color:var(--gading);
+        min-height:100vh;
+        -webkit-tap-highlight-color:transparent;
+      }
+      .waves{ position:fixed; inset:0; z-index:0; pointer-events:none; }
+      .wrap{ position:relative; z-index:1; max-width:600px; margin:0 auto; padding:14px 8px 34px; }
+      button{ font-family:inherit; cursor:pointer; }
+      button:focus-visible, [tabindex]:focus-visible{ outline:3px solid #FFFFFF; outline-offset:2px; }
+      .layar{ animation:muncul .35s ease both; }
+      .tersembunyi{ display:none !important; }
+      @keyframes muncul{ from{ opacity:0; transform:translateY(8px);} to{ opacity:1; transform:none;} }
+
+      /* ---------- Layar mulai ---------- */
+      .judul{
+        font-family:"Baloo 2", system-ui, sans-serif;
+        font-weight:800; font-size:clamp(44px, 13vw, 72px);
+        text-align:center; margin:18px 0 2px; letter-spacing:1px; line-height:1;
+        color:var(--gading);
+      }
+      .judul .seru{ color:var(--kuningan); }
+      .tagline{ text-align:center; color:var(--gading-redup); font-size:16px; margin:6px auto 4px; max-width:420px; line-height:1.45; }
+      .ombak-pemisah{ display:block; margin:10px auto 4px; }
+      .label-bagian{ font-family:"Baloo 2", sans-serif; font-weight:700; font-size:19px; margin:22px 4px 10px; color:var(--gading); }
+      .pilihan{ display:flex; gap:10px; }
+      .pilihan button{
+        flex:1; min-height:52px; padding:10px 8px;
+        background:var(--laut-gelap); color:var(--gading);
+        border:2px solid #2A5A5D; border-radius:14px;
+        font-size:16px; font-weight:800;
+        transition:border-color .15s ease, background .15s ease, transform .1s ease;
+      }
+      .pilihan button:active{ transform:scale(.98); }
+      .pilihan button.aktif{ background:var(--kuningan); border-color:var(--kuningan-terang); color:var(--teks-gelap); }
+      .pilihan.mati{ opacity:.38; pointer-events:none; }
+      .pilihan.mati button{ cursor:not-allowed; }
+      .catatan-mode{ font-size:13.5px; color:var(--gading-redup); margin:8px 4px 0; min-height:18px; }
+      .rekor{
+        margin-top:24px; background:var(--laut-gelap);
+        border:1.5px solid #2A5A5D; border-radius:16px; padding:14px 16px 10px;
+      }
+      .rekor h2{ font-family:"Baloo 2", sans-serif; font-size:18px; margin:0 0 8px; font-weight:700; }
+      .rekor table{ width:100%; border-collapse:collapse; font-size:15px; }
+      .rekor th{ text-align:left; color:var(--gading-redup); font-weight:700; padding:5px 4px; font-size:13.5px; }
+      .rekor td{ padding:6px 4px; border-top:1px solid #1D4A4D; font-weight:700; }
+      .rekor td.angka, .rekor th.angka{ text-align:center; }
+      .tombol-utama{
+        display:block; width:100%; min-height:58px; margin-top:26px;
+        background:var(--kuningan); color:var(--teks-gelap);
+        border:none; border-radius:16px;
+        font-family:"Baloo 2", sans-serif; font-size:23px; font-weight:800; letter-spacing:.4px;
+        box-shadow:0 6px 0 #8F7114, 0 12px 22px rgba(0,0,0,.35);
+        transition:transform .1s ease, box-shadow .1s ease;
+      }
+      .tombol-utama:active{ transform:translateY(4px); box-shadow:0 2px 0 #8F7114, 0 6px 12px rgba(0,0,0,.35); }
+      .tombol-hantu{
+        display:block; width:100%; min-height:52px; margin-top:12px;
+        background:transparent; color:var(--gading);
+        border:2px solid #2A5A5D; border-radius:16px;
+        font-size:17px; font-weight:800;
+      }
+      .tombol-hantu:active{ background:#103F42; }
+      .info-bawah{ text-align:center; color:var(--gading-redup); font-size:13.5px; margin-top:20px; }
+
+      /* ---------- Layar permainan ---------- */
+      .giliran{
+        font-family:"Baloo 2", sans-serif; font-weight:700;
+        font-size:clamp(20px, 5.6vw, 26px); text-align:center;
+        margin:8px 0 4px; min-height:34px; color:var(--gading);
+      }
+      .giliran .sorot{ color:var(--kuningan-terang); }
+      .log{ list-style:none; margin:6px auto 12px; padding:0; max-width:440px; min-height:66px; }
+      .log li{
+        text-align:center; font-size:15px; font-weight:700; color:var(--gading);
+        padding:1.5px 0; animation:muncul .3s ease both;
+      }
+      .log li:nth-child(2){ color:var(--gading-redup); font-weight:600; font-size:14px; }
+      .log li:nth-child(3){ color:#9DB8B4; font-weight:600; font-size:13.5px; }
+      .log li.tembak{ color:#F0856F; }
+
+      .papan-bungkus{ position:relative; }
+      .papan{
+        background:
+          repeating-linear-gradient(93deg, rgba(46,26,6,.16) 0 2px, rgba(46,26,6,0) 2px 9px),
+          repeating-linear-gradient(178deg, rgba(255,226,170,.05) 0 3px, rgba(255,226,170,0) 3px 14px),
+          var(--kayu);
+        border:3px solid var(--kayu-tepi);
+        border-radius:64px;
+        box-shadow: inset 0 3px 0 rgba(255,235,200,.28), inset 0 -14px 26px rgba(30,16,2,.45), 0 20px 42px rgba(0,0,0,.5);
+        padding:16px 10px;
+        display:flex; flex-direction:column; gap:12px;
+      }
+      .baris{ display:flex; align-items:stretch; gap:6px; }
+      .baris-atas{ order:1; }
+      .baris-bawah{ order:2; }
+      .lubang-baris{ display:flex; gap:4px; flex:1; }
+      .lumbung{
+        width:44px; flex:none;
+        background:var(--palka);
+        border:3px solid var(--kuningan);
+        border-radius:999px;
+        display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1px;
+        padding:6px 2px;
+        box-shadow: inset 0 6px 14px rgba(0,0,0,.65);
+      }
+      .lumbung .nama{ display:flex; flex-direction:column; align-items:center; gap:0; text-align:center; line-height:1.2; }
+      .lumbung .nama .atas{ font-size:6.5px; font-weight:700; letter-spacing:0; color:#B4A87F; text-transform:uppercase; }
+      .lumbung .nama .pemilik{ font-size:10.5px; font-weight:800; letter-spacing:.2px; color:var(--gading); text-transform:uppercase; }
+      .lumbung .skor{ font-family:"Baloo 2", sans-serif; font-weight:800; font-size:27px; line-height:1; color:var(--kuningan-terang); }
+      .lumbung.aktif{ box-shadow: inset 0 6px 14px rgba(0,0,0,.65), 0 0 0 3px rgba(201,162,39,.45); }
+      .lubang{
+        flex:1; min-width:0; min-height:48px;
+        aspect-ratio: 1 / 1.18;
+        position:relative;
+        background:var(--kayu-gelap);
+        border:2px solid #4A2C12;
+        border-radius:50%;
+        box-shadow: inset 0 7px 13px rgba(0,0,0,.7), inset 0 -2px 4px rgba(255,220,160,.14);
+        color:var(--gading);
+        padding:0;
+        transition:box-shadow .15s ease, opacity .15s ease, transform .12s ease;
+      }
+      .lubang .nomor-lubang{
+        position:absolute; top:3px; left:0; right:0;
+        font-size:9px; font-weight:800; color:rgba(245,239,224,.5); letter-spacing:.5px;
+      }
+      .lubang .butir{
+        position:absolute; inset:16% 14% 12%;
+        display:flex; flex-wrap:wrap; align-content:center; justify-content:center; gap:2px;
+        pointer-events:none;
+      }
+      .lubang .butir i{
+        width:5px; height:6.5px; border-radius:50%;
+        background:var(--gading); opacity:.5; display:block;
+        box-shadow: inset -1px -1px 1px rgba(120,90,40,.5);
+      }
+      .lubang .angka{
+        position:absolute; inset:0;
+        display:flex; align-items:center; justify-content:center;
+        font-family:"Baloo 2", sans-serif; font-weight:800;
+        font-size:clamp(18px, 5.6vw, 26px);
+        color:var(--gading);
+        text-shadow:0 2px 5px rgba(0,0,0,.85), 0 0 3px rgba(0,0,0,.8);
+        pointer-events:none;
+      }
+      .lubang.bisa{
+        box-shadow: inset 0 7px 13px rgba(0,0,0,.7), 0 0 0 2.5px var(--kuningan), 0 4px 10px rgba(0,0,0,.35);
+        cursor:pointer;
+      }
+      .lubang.bisa:hover{ transform:translateY(-2px); }
+      .lubang.mati{ opacity:.62; cursor:not-allowed; }
+      .lubang.mati .angka{ color:var(--gading-redup); }
+      .lubang.terakhir{ box-shadow: inset 0 7px 13px rgba(0,0,0,.7), 0 0 0 3.5px #FFFFFF, 0 0 18px rgba(255,255,255,.55); }
+      .lubang.lompat{ animation:lompat .16s ease; }
+      @keyframes lompat{ 0%{ transform:scale(1);} 40%{ transform:scale(1.13);} 100%{ transform:scale(1);} }
+      .lubang.goyang{ animation:goyang .3s ease; }
+      @keyframes goyang{ 0%,100%{ transform:translateX(0);} 25%{ transform:translateX(-4px);} 75%{ transform:translateX(4px);} }
+
+      .biji-terbang{
+        position:absolute; z-index:5; width:17px; height:17px; margin:-8.5px 0 0 -8.5px;
+        border-radius:50%; background:var(--gading);
+        box-shadow: inset -2px -3px 4px rgba(120,90,40,.55), 0 4px 8px rgba(0,0,0,.45);
+        display:none; align-items:center; justify-content:center;
+        pointer-events:none;
+      }
+      .biji-terbang .sisa{
+        position:absolute; top:-17px; left:50%; transform:translateX(-50%);
+        font-family:"Baloo 2", sans-serif; font-weight:800; font-size:13px; color:var(--kuningan-terang);
+        text-shadow:0 1px 3px rgba(0,0,0,.9); white-space:nowrap;
+      }
+      .pesan-besar{
+        position:absolute; z-index:6; left:0; right:0; top:50%;
+        transform:translateY(-50%);
+        text-align:center; pointer-events:none;
+        font-family:"Baloo 2", sans-serif; font-weight:800;
+        font-size:clamp(30px, 9vw, 44px); letter-spacing:.5px;
+        opacity:0; display:none;
+      }
+      .pesan-besar.tampil{ display:block; animation:pesan .95s ease both; }
+      .pesan-besar.tembak{ color:#FF6B4A; text-shadow:0 3px 0 #5E1305, 0 6px 18px rgba(0,0,0,.6); }
+      .pesan-besar.jalan{ color:var(--kuningan-terang); text-shadow:0 3px 0 #5C4703, 0 6px 18px rgba(0,0,0,.6); }
+      @keyframes pesan{ 0%{ opacity:0; transform:translateY(-50%) scale(.6);} 18%{ opacity:1; transform:translateY(-50%) scale(1.08);} 30%{ transform:translateY(-50%) scale(1);} 78%{ opacity:1;} 100%{ opacity:0; transform:translateY(-56%) scale(1);} }
+
+      .kontrol{ display:flex; gap:8px; margin-top:18px; }
+      .kontrol button{
+        flex:1; min-height:48px; padding:8px 4px;
+        background:var(--laut-gelap); color:var(--gading);
+        border:2px solid #2A5A5D; border-radius:13px;
+        font-size:15px; font-weight:800;
+      }
+      .kontrol button:active{ background:#103F42; }
+
+      /* ---------- Layar akhir ---------- */
+      .hasil-judul{
+        font-family:"Baloo 2", sans-serif; font-weight:800;
+        font-size:clamp(34px, 9.5vw, 52px); text-align:center; margin:26px 0 4px; line-height:1.1;
+      }
+      .hasil-sub{ text-align:center; color:var(--gading-redup); font-size:16px; margin:0 0 8px; }
+      .skor-akhir{ display:flex; align-items:flex-start; justify-content:center; gap:14px; margin:22px 0 6px; }
+      .skor-akhir .sisi{ text-align:center; min-width:104px; }
+      .skor-akhir .nilai{ font-family:"Baloo 2", sans-serif; font-weight:800; font-size:64px; line-height:1; color:var(--gading); }
+      .skor-akhir .nilai.menang{ color:var(--kuningan-terang); }
+      .skor-akhir .label{ font-size:14px; font-weight:800; color:var(--gading-redup); margin-top:5px; }
+      .skor-akhir .pisah{ font-family:"Baloo 2", sans-serif; font-size:40px; font-weight:700; color:var(--gading-redup); padding-top:8px; }
+      .tips{
+        margin:22px auto 4px; max-width:440px;
+        background:var(--laut-gelap); border:1.5px solid #2A5A5D; border-radius:16px;
+        padding:14px 18px; font-size:15.5px; line-height:1.55;
+      }
+      .tips .tips-judul{ font-family:"Baloo 2", sans-serif; font-weight:700; color:var(--kuningan-terang); display:block; margin-bottom:3px; font-size:16px; }
+
+      /* ---------- Modal aturan ---------- */
+      .modal-latar{
+        position:fixed; inset:0; z-index:20; background:rgba(3,20,21,.78);
+        display:flex; align-items:flex-end; justify-content:center;
+      }
+      .modal{
+        background:#0E4448; color:var(--gading);
+        width:100%; max-width:600px; max-height:88vh;
+        display:flex; flex-direction:column;
+        border-radius:22px 22px 0 0; padding:22px 22px 24px;
+        animation:naik .3s ease both;
+      }
+      .modal-isi{ overflow-y:auto; min-height:0; }
+      @keyframes naik{ from{ transform:translateY(30px); opacity:0;} to{ transform:none; opacity:1;} }
+      .modal h2{ font-family:"Baloo 2", sans-serif; font-size:26px; margin:0 0 4px; font-weight:800; }
+      .modal h3{ font-family:"Baloo 2", sans-serif; font-size:18px; margin:18px 0 4px; color:var(--kuningan-terang); font-weight:700; }
+      .modal p, .modal li{ font-size:15.5px; line-height:1.6; color:var(--gading); }
+      .modal ul{ margin:4px 0; padding-left:20px; }
+      .modal .tutup{
+        flex:none;
+        display:block; width:100%; min-height:52px; margin-top:16px;
+        background:var(--kuningan); color:var(--teks-gelap); border:none; border-radius:14px;
+        font-family:"Baloo 2", sans-serif; font-size:19px; font-weight:800;
+      }
+      #confetti{ position:fixed; inset:0; z-index:30; pointer-events:none; overflow:hidden; }
+      #confetti i{ position:absolute; top:0; display:block; border-radius:2px; }
+
+      @media (prefers-reduced-motion: reduce){
+        .layar, .log li, .modal{ animation:none; }
+        .lubang.lompat, .lubang.goyang{ animation:none; }
+        .pesan-besar.tampil{ animation:pesanPudar .95s ease both; }
+        @keyframes pesanPudar{ 0%{opacity:0;} 15%{opacity:1;} 80%{opacity:1;} 100%{opacity:0;} }
+      }
+    </style>
+  </head>
+  <body>
+    <svg class="waves" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 400 800" aria-hidden="true">
+      <g fill="none" stroke="#FFFFFF" stroke-width="1.4">
+        <path d="M-20 90 Q 30 70, 80 90 T 180 90 T 280 90 T 380 90 T 480 90" opacity="0.07"/>
+        <path d="M-20 210 Q 30 190, 80 210 T 180 210 T 280 210 T 380 210 T 480 210" opacity="0.05"/>
+        <path d="M-20 340 Q 30 320, 80 340 T 180 340 T 280 340 T 380 340 T 480 340" opacity="0.07"/>
+        <path d="M-20 470 Q 30 450, 80 470 T 180 470 T 280 470 T 380 470 T 480 470" opacity="0.05"/>
+        <path d="M-20 600 Q 30 580, 80 600 T 180 600 T 280 600 T 380 600 T 480 600" opacity="0.07"/>
+        <path d="M-20 720 Q 30 700, 80 720 T 180 720 T 280 720 T 380 720 T 480 720" opacity="0.05"/>
+      </g>
+    </svg>
+
+    <div class="wrap">
+      <!-- ============ LAYAR MULAI ============ -->
+      <section id="layar-menu" class="layar">
+        <h1 class="judul">CONGKLAK<span class="seru">!</span></h1>
+        <p class="tagline">Permainan tradisional Indonesia. Tabur biji kerang mengelilingi papan perahu, rebut isi lubang lawan dengan tembak, dan kumpulkan biji terbanyak di lumbungmu.</p>
+        <svg class="ombak-pemisah" width="150" height="14" viewBox="0 0 150 14" aria-hidden="true">
+          <path d="M2 8 Q 14 2, 26 8 T 50 8 T 74 8 T 98 8 T 122 8 T 146 8" fill="none" stroke="#C9A227" stroke-width="2.4" stroke-linecap="round"/>
+        </svg>
+
+        <p class="label-bagian" id="label-mode">Pilih Mode</p>
+        <div class="pilihan" role="group" aria-labelledby="label-mode">
+          <button type="button" id="mode-ai" aria-pressed="true">Lawan AI</button>
+          <button type="button" id="mode-2p" aria-pressed="false">2 Pemain</button>
+        </div>
+        <p class="catatan-mode" id="catatan-mode">Kamu bermain di baris bawah, AI di baris atas.</p>
+
+        <p class="label-bagian" id="label-sulit">Tingkat Kesulitan AI</p>
+        <div class="pilihan" role="group" aria-labelledby="label-sulit" id="grup-sulit">
+          <button type="button" data-sulit="mudah" aria-pressed="false">Mudah</button>
+          <button type="button" data-sulit="sedang" aria-pressed="false">Sedang</button>
+          <button type="button" data-sulit="sulit" aria-pressed="false">Sulit</button>
+        </div>
+
+        <div class="rekor">
+          <h2>Rekor Lawan AI</h2>
+          <table>
+            <thead>
+              <tr><th>Tingkat</th><th class="angka">Menang</th><th class="angka">Kalah</th><th class="angka">Seri</th></tr>
+            </thead>
+            <tbody id="rekor-isi"></tbody>
+          </table>
+        </div>
+
+        <button type="button" class="tombol-utama" id="btn-mulai">Mulai Main</button>
+        <button type="button" class="tombol-hantu" id="btn-cara">Cara Main</button>
+        <p class="info-bawah">98 biji kerang &middot; 14 lubang &middot; 2 lumbung &middot; satu layar, tanpa login</p>
+      </section>
+
+      <!-- ============ LAYAR PERMAINAN ============ -->
+      <section id="layar-game" class="layar tersembunyi">
+        <p class="giliran" id="penanda-giliran" aria-live="polite">Giliranmu</p>
+        <ul class="log" id="log" aria-label="Kejadian terakhir"></ul>
+
+        <div class="papan-bungkus" id="papan-bungkus">
+          <div class="papan" id="papan">
+            <div class="baris baris-bawah">
+              <div class="lubang-baris" id="baris-bawah"></div>
+              <div class="lumbung" id="lumbung-0">
+                <span class="nama"><span class="atas">Lumbung</span><span class="pemilik" id="nama-lumbung-0">Kamu</span></span>
+                <span class="skor" id="skor-0">0</span>
+              </div>
+            </div>
+            <div class="baris baris-atas">
+              <div class="lumbung" id="lumbung-1">
+                <span class="nama"><span class="atas">Lumbung</span><span class="pemilik" id="nama-lumbung-1">AI</span></span>
+                <span class="skor" id="skor-1">0</span>
+              </div>
+              <div class="lubang-baris" id="baris-atas"></div>
+            </div>
+          </div>
+          <div class="biji-terbang" id="biji-terbang"><span class="sisa" id="sisa-tangan"></span></div>
+          <div class="pesan-besar" id="pesan-besar" aria-hidden="true"></div>
+        </div>
+
+        <div class="kontrol">
+          <button type="button" id="btn-suara">Suara: Nyala</button>
+          <button type="button" id="btn-aturan">Aturan</button>
+          <button type="button" id="btn-ulang">Ulang</button>
+          <button type="button" id="btn-menu">Menu</button>
+        </div>
+      </section>
+
+      <!-- ============ LAYAR AKHIR ============ -->
+      <section id="layar-akhir" class="layar tersembunyi">
+        <h2 class="hasil-judul" id="hasil-judul">Kamu Menang!</h2>
+        <p class="hasil-sub" id="hasil-sub">Permainan selesai.</p>
+        <div class="skor-akhir">
+          <div class="sisi">
+            <div class="nilai" id="skor-akhir-0">0</div>
+            <div class="label" id="label-akhir-0">Lumbungmu</div>
+          </div>
+          <div class="pisah">&ndash;</div>
+          <div class="sisi">
+            <div class="nilai" id="skor-akhir-1">0</div>
+            <div class="label" id="label-akhir-1">Lumbung AI</div>
+          </div>
+        </div>
+        <div class="tips">
+          <span class="tips-judul">Tips strategi</span>
+          <span id="isi-tips"></span>
+        </div>
+        <button type="button" class="tombol-utama" id="btn-lagi">Main Lagi</button>
+        <button type="button" class="tombol-hantu" id="btn-ganti-mode">Ganti Mode</button>
+      </section>
+    </div>
+
+    <!-- ============ MODAL CARA MAIN ============ -->
+    <div class="modal-latar tersembunyi" id="modal-latar">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="judul-aturan">
+        <div class="modal-isi">
+        <h2 id="judul-aturan">Cara Main Congklak</h2>
+        <p>Tujuannya sederhana: kumpulkan biji kerang terbanyak di lumbungmu. Papan berisi 14 lubang kecil (7 di sisimu, 7 di sisi lawan) dan 2 lumbung di kedua ujung. Setiap lubang kecil mulai dengan 7 biji, jadi total ada 98 biji.</p>
+
+        <h3>Menabur</h3>
+        <p>Pada giliranmu, pilih satu lubang berisi di sisimu. Semua bijinya diambil, lalu ditabur satu per satu mengelilingi papan: menyusuri barismu, masuk ke lumbungmu, lanjut ke baris lawan, dan seterusnya. Lumbung lawan selalu dilewati dan tidak pernah diisi.</p>
+
+        <h3>Jalan Terus</h3>
+        <p>Ini ciri khas congklak: kalau biji terakhirmu jatuh di lubang yang sudah berisi — di sisi mana pun — ambil seluruh isi lubang itu dan lanjutkan menabur dari lubang berikutnya. Giliranmu belum berpindah.</p>
+
+        <h3>Giliran Tambahan</h3>
+        <p>Kalau biji terakhirmu jatuh tepat di lumbungmu sendiri, kamu boleh jalan lagi dari awal.</p>
+
+        <h3>Tembak</h3>
+        <p>Kalau biji terakhirmu jatuh di lubang kosong di sisimu, dan lubang tepat di seberangnya berisi, kamu menembak: biji terakhir itu beserta seluruh isi lubang seberang masuk ke lumbungmu. Giliran lalu berpindah ke lawan.</p>
+
+        <h3>Akhir Permainan</h3>
+        <ul>
+          <li>Giliran berpindah kalau biji terakhir jatuh di lubang kosong yang seberangnya kosong, atau di lubang kosong di sisi lawan.</li>
+          <li>Permainan berakhir begitu salah satu sisi kosong. Seluruh sisa biji di sisi satunya masuk ke lumbung pemilik sisi itu.</li>
+          <li>Pemilik lumbung terbanyak menang. Kalau sama-sama 49, hasilnya seri.</li>
+        </ul>
+        </div>
+        <button type="button" class="tutup" id="btn-tutup-aturan">Tutup</button>
+      </div>
+    </div>
+
+    <div id="confetti" aria-hidden="true"></div>
+
+    <script>
+    (function(){
+      "use strict";
+
+      /* ================= SIMPANAN ================= */
+      var KUNCI = "congklak-v1";
+      var TINGKAT = ["mudah","sedang","sulit"];
+      function dataBawaan(){
+        return {
+          v: 1,
+          records: {
+            mudah:  { m:0, k:0, s:0 },
+            sedang: { m:0, k:0, s:0 },
+            sulit:  { m:0, k:0, s:0 }
+          },
+          settings: { sound:true, mode:"ai", diff:"sedang" }
+        };
+      }
+      function angkaValid(x){ return typeof x === "number" && isFinite(x) && x >= 0; }
+      function muatData(){
+        var d = dataBawaan();
+        try {
+          var mentah = localStorage.getItem(KUNCI);
+          if (!mentah) return d;
+          var p = JSON.parse(mentah);
+          if (!p || typeof p !== "object" || p.v !== 1) return d;
+          if (p.records && typeof p.records === "object") {
+            TINGKAT.forEach(function(t){
+              var r = p.records[t];
+              if (r && angkaValid(r.m) && angkaValid(r.k) && angkaValid(r.s)) {
+                d.records[t] = { m: Math.floor(r.m), k: Math.floor(r.k), s: Math.floor(r.s) };
+              }
+            });
+          }
+          if (p.settings && typeof p.settings === "object") {
+            if (typeof p.settings.sound === "boolean") d.settings.sound = p.settings.sound;
+            if (p.settings.mode === "ai" || p.settings.mode === "2p") d.settings.mode = p.settings.mode;
+            if (TINGKAT.indexOf(p.settings.diff) >= 0) d.settings.diff = p.settings.diff;
+          }
+          return d;
+        } catch (e) { return d; }
+      }
+      var data = muatData();
+      function simpan(){
+        try { localStorage.setItem(KUNCI, JSON.stringify(data)); } catch (e) {}
+      }
+
+      /* ================= KONSTANTA PAPAN =================
+         Indeks slot melingkar:
+           0..6   = baris bawah (Pemain 0), kiri -> kanan
+           7      = lumbung Pemain 0 (kanan)
+           8..14  = baris atas (Pemain 1), ditabur kanan -> kiri
+                    (slot 8 = kolom paling kanan, slot 14 = kolom paling kiri)
+           15     = lumbung Pemain 1 (kiri)
+      */
+      var LUMBUNG = [7, 15];
+      function sisiPemain(p){ return p === 0 ? [0,1,2,3,4,5,6] : [8,9,10,11,12,13,14]; }
+      function diSisi(p, slot){ return sisiPemain(p).indexOf(slot) >= 0; }
+      function seberang(slot){ return 14 - slot; }
+      function nomorLubang(slot){ return slot <= 6 ? slot + 1 : 15 - slot; }
+      function sisiKosong(b, p){
+        var s = sisiPemain(p);
+        for (var i = 0; i < s.length; i++) if (b[s[i]] > 0) return false;
+        return true;
+      }
+      function langkahLegal(b, p){
+        return sisiPemain(p).filter(function(s){ return b[s] > 0; });
+      }
+
+      /* ================= MESIN ATURAN =================
+         resolveMove(board, pemain, awal, rekam)
+         Mengembalikan { board, next, over, captured, extra, events }.
+         events dipakai untuk animasi; abaikan saat dipakai AI. */
+      function resolveMove(board, pemain, awal, rekam){
+        var b = board.slice();
+        var lawan = 1 - pemain;
+        var events = rekam ? [] : null;
+        var captured = 0, extra = false, over = false;
+        var pos = awal;
+        var tangan = b[pos]; b[pos] = 0;
+        if (events) events.push({ t:"ambil", pos:pos, jumlah:tangan });
+        var terakhir = -1;
+        var jaga = 0;
+        while (true) {
+          if (++jaga > 500) break; /* pengaman; tidak pernah tercapai di permainan normal */
+          var cur = pos;
+          while (tangan > 0) {
+            cur = (cur + 1) % 16;
+            if (cur === LUMBUNG[lawan]) continue; /* lumbung lawan selalu dilewati */
+            b[cur]++; tangan--; terakhir = cur;
+            if (events) events.push({ t:"tabur", pos:cur });
+          }
+          if (terakhir === LUMBUNG[pemain]) { extra = true; break; }
+          if (b[terakhir] > 1) {
+            /* JALAN TERUS: lubang berisi -> raup semua, lanjut tabur */
+            pos = terakhir;
+            tangan = b[pos]; b[pos] = 0;
+            if (events) events.push({ t:"ambil", pos:pos, jumlah:tangan });
+            continue;
+          }
+          /* biji terakhir jatuh di lubang yang tadinya kosong (isi sekarang 1) */
+          if (diSisi(pemain, terakhir) && b[seberang(terakhir)] > 0) {
+            /* TEMBAK */
+            var hasil = 1 + b[seberang(terakhir)];
+            b[LUMBUNG[pemain]] += hasil;
+            captured += hasil;
+            if (events) events.push({ t:"tembak", pos:terakhir, seberang:seberang(terakhir), jumlah:hasil });
+            b[terakhir] = 0; b[seberang(terakhir)] = 0;
+          }
+          break;
+        }
+        var next = extra ? pemain : lawan;
+        if (sisiKosong(b, 0) || sisiKosong(b, 1)) {
+          /* AKHIR: sisa biji tiap sisi masuk ke lumbung pemiliknya */
+          for (var p = 0; p < 2; p++) {
+            var ss = sisiPemain(p), sisa = 0;
+            for (var i = 0; i < ss.length; i++) { sisa += b[ss[i]]; b[ss[i]] = 0; }
+            b[LUMBUNG[p]] += sisa;
+          }
+          over = true;
+        }
+        return { board:b, next:next, over:over, captured:captured, extra:extra, events:events };
+      }
+
+      /* ================= AI (minimax + alpha-beta) ================= */
+      function evaluasi(b){
+        var h0 = 0, h1 = 0, i;
+        for (i = 0; i < 7; i++) h0 += b[i];
+        for (i = 8; i < 15; i++) h1 += b[i];
+        return (b[15] - b[7]) * 10 + (h1 - h0) * 0.5;
+      }
+      function minimax(b, pemain, kedalaman, alpha, beta){
+        if (kedalaman === 0) return evaluasi(b);
+        var langkah = langkahLegal(b, pemain);
+        if (langkah.length === 0) return evaluasi(b);
+        var i, r, nilai;
+        if (pemain === 1) {
+          nilai = -Infinity;
+          for (i = 0; i < langkah.length; i++) {
+            r = resolveMove(b, pemain, langkah[i], false);
+            var v = r.over ? evaluasi(r.board) : minimax(r.board, r.next, kedalaman - 1, alpha, beta);
+            if (v > nilai) nilai = v;
+            if (nilai > alpha) alpha = nilai;
+            if (alpha >= beta) break;
+          }
+          return nilai;
+        }
+        nilai = Infinity;
+        for (i = 0; i < langkah.length; i++) {
+          r = resolveMove(b, pemain, langkah[i], false);
+          var v2 = r.over ? evaluasi(r.board) : minimax(r.board, r.next, kedalaman - 1, alpha, beta);
+          if (v2 < nilai) nilai = v2;
+          if (nilai < beta) beta = nilai;
+          if (alpha >= beta) break;
+        }
+        return nilai;
+      }
+      var KONFIG_AI = {
+        mudah:  { depth:2, acak:0.5 },
+        sedang: { depth:3, acak:0.4 },
+        sulit:  { depth:6, acak:0 }
+      };
+      function pilihLangkahAI(b){
+        var langkah = langkahLegal(b, 1);
+        if (langkah.length === 0) return -1;
+        if (langkah.length === 1) return langkah[0];
+        var cfg = KONFIG_AI[data.settings.diff];
+        if (cfg.acak > 0 && Math.random() < cfg.acak) {
+          return langkah[Math.floor(Math.random() * langkah.length)];
+        }
+        var terbaik = -Infinity, pilihan = langkah[0];
+        for (var i = 0; i < langkah.length; i++) {
+          var r = resolveMove(b, 1, langkah[i], false);
+          var v = r.over ? evaluasi(r.board) : minimax(r.board, r.next, cfg.depth - 1, -Infinity, Infinity);
+          v += Math.random() * 0.001; /* pemecah seri */
+          if (v > terbaik) { terbaik = v; pilihan = langkah[i]; }
+        }
+        return pilihan;
+      }
+
+      /* ================= SUARA (WebAudio murni) ================= */
+      var AC = null;
+      function konteksAudio(){
+        if (!AC) {
+          var K = window.AudioContext || window.webkitAudioContext;
+          if (!K) return null;
+          AC = new K();
+        }
+        if (AC.state === "suspended") AC.resume();
+        return AC;
+      }
+      function nada(f0, f1, dur, tipe, vol, tunda){
+        if (!data.settings.sound) return;
+        try {
+          var ctx = konteksAudio(); if (!ctx) return;
+          var t = ctx.currentTime + (tunda || 0);
+          var o = ctx.createOscillator(), g = ctx.createGain();
+          o.type = tipe;
+          o.frequency.setValueAtTime(f0, t);
+          if (f1 && f1 !== f0) o.frequency.exponentialRampToValueAtTime(Math.max(f1, 1), t + dur);
+          g.gain.setValueAtTime(vol, t);
+          g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+          o.connect(g); g.connect(ctx.destination);
+          o.start(t); o.stop(t + dur + 0.03);
+        } catch (e) {}
+      }
+      function bunyiKlik(){ nada(1250, 480, 0.05, "triangle", 0.16); }
+      function bunyiAmbil(){ nada(290, 140, 0.09, "sine", 0.22); }
+      function bunyiTembak(){
+        nada(720, 110, 0.34, "sawtooth", 0.10);
+        nada(170, 55, 0.32, "sine", 0.26, 0.02);
+        nada(1500, 900, 0.1, "triangle", 0.10, 0.03);
+      }
+      function bunyiJalanLagi(){ nada(880, 880, 0.09, "sine", 0.14); nada(1318, 1318, 0.13, "sine", 0.14, 0.09); }
+      function bunyiMenang(){
+        var urut = [523, 659, 784, 1047];
+        for (var i = 0; i < urut.length; i++) nada(urut[i], urut[i], 0.2, "triangle", 0.17, i * 0.11);
+        nada(1319, 1319, 0.34, "triangle", 0.13, 0.46);
+      }
+      function bunyiKalah(){
+        nada(392, 392, 0.16, "triangle", 0.13);
+        nada(330, 330, 0.16, "triangle", 0.13, 0.15);
+        nada(262, 250, 0.26, "triangle", 0.13, 0.3);
+      }
+      function bunyiSeri(){ nada(523, 523, 0.15, "triangle", 0.13); nada(523, 523, 0.2, "triangle", 0.13, 0.16); }
+
+      /* ================= ELEMEN & STATE ================= */
+      function el(id){ return document.getElementById(id); }
+      var layarMenu = el("layar-menu"), layarGame = el("layar-game"), layarAkhir = el("layar-akhir");
+      var penanda = el("penanda-giliran"), logEl = el("log");
+      var papanBungkus = el("papan-bungkus");
+      var bijiEl = el("biji-terbang"), sisaEl = el("sisa-tangan");
+      var pesanEl = el("pesan-besar");
+      var gerakKurangi = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      var board = [];
+      var fase = "menu";        /* menu | bermain | menabur | ai | akhir */
+      var giliran = 0;          /* pemain yang sedang jalan */
+      var penggerak = 0;        /* pemain yang sedang menabur (untuk label) */
+      var idSesi = 0;           /* token pembatal sesi animasi/AI */
+      var lubangEl = {};        /* slot -> tombol */
+      var posisiBiji = null;    /* koordinat biji terbang saat ini */
+      var lubangTerakhirEl = null;
+
+      function papanAwal(){
+        var b = [];
+        for (var i = 0; i < 16; i++) b[i] = (i === 7 || i === 15) ? 0 : 7;
+        return b;
+      }
+      function modeAI(){ return data.settings.mode === "ai"; }
+      function namaPemain(p){
+        if (modeAI()) return p === 0 ? "Kamu" : "AI";
+        return p === 0 ? "Pemain 1" : "Pemain 2";
+      }
+      function namaLumbung(p){
+        if (modeAI()) return p === 0 ? "Lumbungmu" : "Lumbung AI";
+        return p === 0 ? "Lumbung P1" : "Lumbung P2";
+      }
+      function namaPemilikLumbung(p){
+        if (modeAI()) return p === 0 ? "Kamu" : "AI";
+        return p === 0 ? "P1" : "P2";
+      }
+
+      /* ================= RENDER PAPAN ================= */
+      function buatLubang(slot, wadah){
+        var btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "lubang";
+        btn.dataset.slot = slot;
+        var no = document.createElement("span");
+        no.className = "nomor-lubang";
+        no.textContent = nomorLubang(slot);
+        var butir = document.createElement("span");
+        butir.className = "butir";
+        var angka = document.createElement("span");
+        angka.className = "angka";
+        btn.appendChild(no); btn.appendChild(butir); btn.appendChild(angka);
+        btn.addEventListener("click", function(){ ketukLubang(slot); });
+        wadah.appendChild(btn);
+        lubangEl[slot] = btn;
+      }
+      (function bangunPapan(){
+        var bawah = el("baris-bawah"), atas = el("baris-atas"), i;
+        for (i = 0; i < 7; i++) buatLubang(i, bawah);            /* 0..6 kiri -> kanan */
+        for (i = 14; i >= 8; i--) buatLubang(i, atas);          /* visual kiri -> kanan: 14..8 */
+      })();
+
+      function bisaDipilih(slot){
+        if (fase !== "bermain") return false;
+        if (!diSisi(giliran, slot)) return false;
+        if (board[slot] <= 0) return false;
+        if (modeAI() && giliran === 1) return false;
+        return true;
+      }
+      function gambarLubang(slot){
+        var btn = lubangEl[slot]; if (!btn) return;
+        var n = board[slot];
+        btn.querySelector(".angka").textContent = n;
+        var butir = btn.querySelector(".butir");
+        var tampil = Math.min(n, 8);
+        if (butir.childElementCount !== tampil) {
+          butir.innerHTML = "";
+          for (var i = 0; i < tampil; i++) butir.appendChild(document.createElement("i"));
+        }
+        var pemilik = slot <= 6 ? 0 : 1;
+        btn.setAttribute("aria-label",
+          "Lubang " + nomorLubang(slot) + " milik " + namaPemain(pemilik) + ", " + n + " biji");
+        var aktif = bisaDipilih(slot);
+        btn.classList.toggle("bisa", aktif);
+        btn.classList.toggle("mati", !aktif);
+        btn.setAttribute("aria-disabled", aktif ? "false" : "true");
+      }
+      function gambarLumbung(){
+        el("skor-0").textContent = board[7];
+        el("skor-1").textContent = board[15];
+        el("nama-lumbung-0").textContent = namaPemilikLumbung(0);
+        el("nama-lumbung-1").textContent = namaPemilikLumbung(1);
+        el("lumbung-0").classList.toggle("aktif", fase !== "akhir" && giliran === 0);
+        el("lumbung-1").classList.toggle("aktif", fase !== "akhir" && giliran === 1);
+      }
+      function gambarSemua(){
+        for (var i = 0; i < 16; i++) if (i !== 7 && i !== 15) gambarLubang(i);
+        gambarLumbung();
+      }
+      function segarkanStatusLubang(){
+        for (var i = 0; i < 16; i++) if (i !== 7 && i !== 15) gambarLubang(i);
+        gambarLumbung();
+      }
+
+      /* ================= LABEL GILIRAN & LOG ================= */
+      function labelGiliran(){
+        var teks;
+        if (fase === "ai") teks = "AI sedang berpikir\u2026";
+        else if (fase === "menabur") {
+          teks = modeAI()
+            ? (penggerak === 1 ? "AI sedang menabur\u2026" : "Kamu sedang menabur\u2026")
+            : namaPemain(penggerak) + " sedang menabur\u2026";
+        } else if (fase === "bermain") {
+          if (modeAI()) teks = giliran === 0 ? "Giliranmu \u2014 ketuk lubangmu" : "Giliran AI";
+          else teks = "Giliran " + namaPemain(giliran) + " \u2014 ketuk lubangmu";
+        } else teks = "";
+        penanda.textContent = teks;
+      }
+      function catatLog(teks, kelas){
+        var li = document.createElement("li");
+        li.textContent = teks;
+        if (kelas) li.className = kelas;
+        logEl.insertBefore(li, logEl.firstChild);
+        while (logEl.children.length > 3) logEl.removeChild(logEl.lastChild);
+      }
+
+      /* ================= ANIMASI ================= */
+      function tidur(ms){ return new Promise(function(r){ setTimeout(r, ms); }); }
+      function pusatSlot(slot){
+        var target = slot === 7 ? el("lumbung-0") : slot === 15 ? el("lumbung-1") : lubangEl[slot];
+        var r1 = target.getBoundingClientRect(), r2 = papanBungkus.getBoundingClientRect();
+        return { x: r1.left - r2.left + r1.width / 2, y: r1.top - r2.top + r1.height / 2 };
+      }
+      function taruhBiji(slot, sisa){
+        posisiBiji = pusatSlot(slot);
+        bijiEl.style.left = posisiBiji.x + "px";
+        bijiEl.style.top = posisiBiji.y + "px";
+        bijiEl.style.transform = "translate(0,0)";
+        bijiEl.style.display = "block";
+        sisaEl.textContent = sisa > 0 ? sisa + " di tangan" : "";
+      }
+      function terbangKe(slot, dur){
+        return new Promise(function(done){
+          var tujuan = pusatSlot(slot);
+          if (!posisiBiji || gerakKurangi || !bijiEl.animate) {
+            posisiBiji = tujuan;
+            bijiEl.style.left = tujuan.x + "px";
+            bijiEl.style.top = tujuan.y + "px";
+            bijiEl.style.transform = "translate(0,0)";
+            setTimeout(done, dur);
+            return;
+          }
+          var dx = tujuan.x - posisiBiji.x, dy = tujuan.y - posisiBiji.y;
+          var anim = bijiEl.animate([
+            { transform: "translate(0,0)" },
+            { transform: "translate(" + (dx / 2) + "px," + (dy / 2 - 16) + "px)", offset: 0.5 },
+            { transform: "translate(" + dx + "px," + dy + "px)" }
+          ], { duration: dur, easing: "ease-in-out" });
+          posisiBiji = tujuan;
+          anim.onfinish = function(){
+            bijiEl.style.left = tujuan.x + "px";
+            bijiEl.style.top = tujuan.y + "px";
+            bijiEl.style.transform = "translate(0,0)";
+            done();
+          };
+        });
+      }
+      function sembunyiBiji(){ bijiEl.style.display = "none"; posisiBiji = null; }
+      function sorotTerakhir(slot){
+        if (lubangTerakhirEl) lubangTerakhirEl.classList.remove("terakhir");
+        lubangTerakhirEl = (slot === 7 || slot === 15) ? null : lubangEl[slot];
+        if (lubangTerakhirEl) lubangTerakhirEl.classList.add("terakhir");
+      }
+      function tampilPesan(teks, kelas){
+        pesanEl.textContent = teks;
+        pesanEl.className = "pesan-besar tampil " + kelas;
+        setTimeout(function(){ pesanEl.className = "pesan-besar"; pesanEl.style.display = ""; }, 980);
+      }
+
+      async function animasikan(res, pemain, sesi){
+        var evs = res.events || [];
+        var jumlahTabur = 0, i, ev;
+        for (i = 0; i < evs.length; i++) if (evs[i].t === "tabur") jumlahTabur++;
+        var langkah = gerakKurangi ? 30 : (jumlahTabur > 34 ? 55 : jumlahTabur > 20 ? 80 : 120);
+        var sisaTangan = 0;
+        for (i = 0; i < evs.length; i++) {
+          if (sesi !== idSesi) return false;
+          ev = evs[i];
+          if (ev.t === "ambil") {
+            board[ev.pos] = 0;
+            gambarLubang(ev.pos);
+            sisaTangan = ev.jumlah;
+            taruhBiji(ev.pos, sisaTangan);
+            bunyiAmbil();
+            await tidur(gerakKurangi ? 40 : 180);
+          } else if (ev.t === "tabur") {
+            board[ev.pos]++;
+            if (ev.pos === 7 || ev.pos === 15) gambarLumbung(); else gambarLubang(ev.pos);
+            sisaTangan--;
+            sisaEl.textContent = sisaTangan > 0 ? sisaTangan + " di tangan" : "";
+            await terbangKe(ev.pos, langkah);
+            if (sesi !== idSesi) return false;
+            bunyiKlik();
+            var b = lubangEl[ev.pos];
+            if (b) { b.classList.remove("lompat"); void b.offsetWidth; b.classList.add("lompat"); }
+            sorotTerakhir(ev.pos);
+          } else if (ev.t === "tembak") {
+            board[ev.pos] = 0; board[ev.seberang] = 0;
+            board[LUMBUNG[pemain]] += ev.jumlah;
+            gambarLubang(ev.pos); gambarLubang(ev.seberang); gambarLumbung();
+            sembunyiBiji();
+            bunyiTembak();
+            tampilPesan("TEMBAK! +" + ev.jumlah, "tembak");
+            await tidur(gerakKurangi ? 220 : 680);
+          }
+        }
+        sembunyiBiji();
+        return sesi === idSesi;
+      }
+
+      /* ================= ALUR PERMAINAN ================= */
+      function tampilkanLayar(mana){
+        layarMenu.classList.toggle("tersembunyi", mana !== "menu");
+        layarGame.classList.toggle("tersembunyi", mana !== "game");
+        layarAkhir.classList.toggle("tersembunyi", mana !== "akhir");
+      }
+      function mulaiPermainan(){
+        idSesi++;
+        board = papanAwal();
+        giliran = 0; penggerak = 0;
+        fase = "bermain";
+        logEl.innerHTML = "";
+        if (lubangTerakhirEl) { lubangTerakhirEl.classList.remove("terakhir"); lubangTerakhirEl = null; }
+        sembunyiBiji();
+        tampilkanLayar("game");
+        gambarSemua();
+        labelGiliran();
+        catatLog(modeAI() ? "Permainan dimulai \u2014 kamu jalan duluan." : "Permainan dimulai \u2014 Pemain 1 jalan duluan.");
+      }
+      function ketukLubang(slot){
+        if (!bisaDipilih(slot)) {
+          if (fase === "bermain" || fase === "menabur" || fase === "ai") {
+            var b = lubangEl[slot];
+            if (b) { b.classList.remove("goyang"); void b.offsetWidth; b.classList.add("goyang"); }
+          }
+          return;
+        }
+        jalankanLangkah(giliran, slot);
+      }
+      async function jalankanLangkah(pemain, awal){
+        var sesi = idSesi;
+        fase = "menabur"; penggerak = pemain;
+        labelGiliran(); segarkanStatusLubang();
+        var res = resolveMove(board, pemain, awal, true);
+        catatLog(namaPemain(pemain) + " menabur dari lubang " + nomorLubang(awal) + ".");
+        var ok = await animasikan(res, pemain, sesi);
+        if (!ok || sesi !== idSesi) return;
+        board = res.board;
+        gambarSemua();
+        if (res.captured > 0) catatLog(namaPemain(pemain) + " TEMBAK +" + res.captured, "tembak");
+        if (res.over) {
+          catatLog("Satu sisi kosong \u2014 sisa biji masuk ke lumbung pemiliknya.");
+          await tidur(gerakKurangi ? 150 : 550);
+          if (sesi !== idSesi) return;
+          akhiriPermainan();
+          return;
+        }
+        giliran = res.next;
+        if (res.extra) {
+          tampilPesan("Jalan lagi!", "jalan");
+          bunyiJalanLagi();
+          catatLog("Jalan lagi!");
+          await tidur(gerakKurangi ? 120 : 620);
+          if (sesi !== idSesi) return;
+        }
+        if (modeAI() && giliran === 1) {
+          fase = "ai";
+          labelGiliran(); segarkanStatusLubang();
+          await tidur(gerakKurangi ? 300 : 600 + Math.random() * 300);
+          if (sesi !== idSesi) return;
+          var langkahAI = pilihLangkahAI(board);
+          if (langkahAI < 0) { akhiriPermainan(); return; }
+          jalankanLangkah(1, langkahAI);
+        } else {
+          fase = "bermain";
+          labelGiliran(); segarkanStatusLubang();
+        }
+      }
+      var TIPS = [
+        "Bidik tembak: kosongkan satu lubang di sisimu yang lubang seberangnya penuh, lalu jatuhkan biji terakhir tepat di lubang kosong itu.",
+        "Hitung sebelum menabur: lubang yang bijinya pas satu putaran penuh sering berakhir di lumbung dan memberimu giliran tambahan.",
+        "Jangan biarkan lubang di seberang lubang kosong lawan terisi penuh \u2014 itu undangan tembak gratis untuk lawan.",
+        "Rangkaian jalan terus dari lubang-lubang berisi bisa menguras sisi lawan dalam satu giliran panjang. Urutan memilih lubang awal sangat menentukan.",
+        "Menjelang akhir, kejar giliran tambahan dari lumbung: sisi yang lebih dulu kosong memaksa sisa biji lawan berpindah sesuai pemilik sisinya."
+      ];
+      function akhiriPermainan(){
+        fase = "akhir";
+        var s0 = board[7], s1 = board[15];
+        var judul, sub;
+        if (s0 === s1) {
+          judul = "Seri!";
+          sub = "Kedua lumbung sama kuat, 49 lawan 49.";
+          bunyiSeri();
+        } else {
+          var pemenang = s0 > s1 ? 0 : 1;
+          if (modeAI()) {
+            judul = pemenang === 0 ? "Kamu Menang!" : "AI Menang";
+            sub = pemenang === 0 ? "Lumbungmu lebih gemuk. Kerja bagus, nahkoda!" : "Kali ini lumbung AI lebih penuh. Coba lagi!";
+          } else {
+            judul = namaPemain(pemenang) + " Menang!";
+            sub = "Lumbung " + namaPemain(pemenang) + " paling banyak isinya.";
+          }
+          if (!modeAI() || pemenang === 0) { bunyiMenang(); confetti(); }
+          else bunyiKalah();
+        }
+        if (modeAI()) {
+          var r = data.records[data.settings.diff];
+          if (s0 > s1) r.m++; else if (s0 < s1) r.k++; else r.s++;
+          simpan();
+        }
+        el("hasil-judul").textContent = judul;
+        el("hasil-sub").textContent = sub;
+        el("skor-akhir-0").textContent = s0;
+        el("skor-akhir-1").textContent = s1;
+        el("label-akhir-0").textContent = namaLumbung(0);
+        el("label-akhir-1").textContent = namaLumbung(1);
+        el("skor-akhir-0").classList.toggle("menang", s0 > s1);
+        el("skor-akhir-1").classList.toggle("menang", s1 > s0);
+        el("isi-tips").textContent = TIPS[Math.floor(Math.random() * TIPS.length)];
+        tampilkanLayar("akhir");
+      }
+      function confetti(){
+        if (gerakKurangi) return;
+        var wadah = el("confetti");
+        var warna = ["#F5EFE0", "#C9A227", "#E4C65B", "#7FB3B0", "#F5EFE0", "#C9A227"];
+        for (var i = 0; i < 70; i++) {
+          var p = document.createElement("i");
+          var uk = 5 + Math.random() * 5;
+          p.style.width = uk + "px";
+          p.style.height = (uk * (Math.random() > 0.5 ? 1 : 0.45)) + "px";
+          p.style.left = (Math.random() * 100) + "vw";
+          p.style.background = warna[i % warna.length];
+          if (Math.random() > 0.6) p.style.borderRadius = "50%";
+          wadah.appendChild(p);
+          var putar = (Math.random() * 720 - 360);
+          var anim = p.animate([
+            { transform: "translateY(-4vh) rotate(0deg)", opacity: 1 },
+            { transform: "translateY(104vh) rotate(" + putar + "deg)", opacity: 0.85 }
+          ], { duration: 2300 + Math.random() * 1600, delay: Math.random() * 450, easing: "cubic-bezier(.2,.65,.4,1)" });
+          (function(node, a){ a.onfinish = function(){ if (node.parentNode) node.parentNode.removeChild(node); }; })(p, anim);
+        }
+      }
+
+      /* ================= MENU & KONTROL ================= */
+      function gambarRekor(){
+        var isi = el("rekor-isi");
+        isi.innerHTML = "";
+        var label = { mudah:"Mudah", sedang:"Sedang", sulit:"Sulit" };
+        TINGKAT.forEach(function(t){
+          var r = data.records[t];
+          var tr = document.createElement("tr");
+          tr.innerHTML = "<td>" + label[t] + "</td>" +
+            "<td class='angka'>" + r.m + "</td>" +
+            "<td class='angka'>" + r.k + "</td>" +
+            "<td class='angka'>" + r.s + "</td>";
+          isi.appendChild(tr);
+        });
+      }
+      function gambarMenu(){
+        el("mode-ai").classList.toggle("aktif", modeAI());
+        el("mode-ai").setAttribute("aria-pressed", modeAI() ? "true" : "false");
+        el("mode-2p").classList.toggle("aktif", !modeAI());
+        el("mode-2p").setAttribute("aria-pressed", !modeAI() ? "true" : "false");
+        el("grup-sulit").classList.toggle("mati", !modeAI());
+        el("grup-sulit").setAttribute("aria-disabled", !modeAI() ? "true" : "false");
+        el("catatan-mode").textContent = modeAI()
+          ? "Kamu bermain di baris bawah, AI di baris atas."
+          : "Berdua di satu layar: Pemain 1 di baris bawah, Pemain 2 di baris atas.";
+        var tombol = document.querySelectorAll("#grup-sulit button");
+        tombol.forEach(function(b){
+          var aktif = b.dataset.sulit === data.settings.diff;
+          b.classList.toggle("aktif", aktif);
+          b.setAttribute("aria-pressed", aktif ? "true" : "false");
+        });
+        gambarRekor();
+      }
+      function gambarTombolSuara(){
+        el("btn-suara").textContent = data.settings.sound ? "Suara: Nyala" : "Suara: Mati";
+      }
+
+      el("mode-ai").addEventListener("click", function(){
+        data.settings.mode = "ai"; simpan(); gambarMenu();
+      });
+      el("mode-2p").addEventListener("click", function(){
+        data.settings.mode = "2p"; simpan(); gambarMenu();
+      });
+      document.querySelectorAll("#grup-sulit button").forEach(function(b){
+        b.addEventListener("click", function(){
+          if (!modeAI()) return;
+          data.settings.diff = b.dataset.sulit; simpan(); gambarMenu();
+        });
+      });
+      el("btn-mulai").addEventListener("click", function(){ konteksAudio(); mulaiPermainan(); });
+      el("btn-cara").addEventListener("click", function(){ el("modal-latar").classList.remove("tersembunyi"); });
+      el("btn-aturan").addEventListener("click", function(){ el("modal-latar").classList.remove("tersembunyi"); });
+      el("btn-tutup-aturan").addEventListener("click", function(){ el("modal-latar").classList.add("tersembunyi"); });
+      el("modal-latar").addEventListener("click", function(e){
+        if (e.target === this) this.classList.add("tersembunyi");
+      });
+      document.addEventListener("keydown", function(e){
+        if (e.key === "Escape") el("modal-latar").classList.add("tersembunyi");
+      });
+      el("btn-suara").addEventListener("click", function(){
+        data.settings.sound = !data.settings.sound;
+        simpan(); gambarTombolSuara();
+        if (data.settings.sound) bunyiJalanLagi();
+      });
+      el("btn-ulang").addEventListener("click", function(){ mulaiPermainan(); });
+      el("btn-menu").addEventListener("click", function(){
+        idSesi++;
+        fase = "menu";
+        sembunyiBiji();
+        gambarMenu();
+        tampilkanLayar("menu");
+      });
+      el("btn-lagi").addEventListener("click", function(){ mulaiPermainan(); });
+      el("btn-ganti-mode").addEventListener("click", function(){
+        fase = "menu";
+        gambarMenu();
+        tampilkanLayar("menu");
+      });
+
+      gambarMenu();
+      gambarTombolSuara();
+    })();
+    </script>
+  </body>
+</html>
